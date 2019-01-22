@@ -1,4 +1,6 @@
 import datetime
+from typing import List
+
 import requests
 import json
 
@@ -9,8 +11,7 @@ def save_json(start, end, path):
     if (end_date - start_date).days < 0:
         raise Exception('start date should NOT after end date')
 
-    # wiki all projects' page views by human (not web scraping) per hour on a day
-    base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/all-projects/all-access/user/hourly/'
+    base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/perarticle/all-projects/all-access/white%20house/user/hourly/'
     data = dict()
     data['start'] = start + '00'
     data['target'] = []
