@@ -1,7 +1,6 @@
 import datetime
 import requests
 import json
-import pandas
 
 
 def save_json(start, end, path):
@@ -11,7 +10,23 @@ def save_json(start, end, path):
         raise Exception('start date should NOT after end date')
 
     ########## hardcode list here! #########
-    list = ['en.wikipedia', 'de.wikipedia', 'ja.wikipedia', 'zh.wikipedia']
+    list = ['en.wikipedia.org',
+            'de.wikipedia.org',
+            'ja.wikipedia.org',
+            'zh.wikipedia.org',
+            'ru.wikipedia.org',
+            'commons.wikimedia.org',
+            'species.wikimedia.org',
+            'en.wiktionary.org',
+            'wikidata.org',
+            'en.wikinews.org',
+            'en.wikivoyage.org',
+            'wikisource.org',
+            'en.wikiversity.org',
+            'en.wikibooks.org',
+            'incubator.wikimedia.org',
+            'wikimediafoundation.org',
+            'outreach.wikimedia.org']
 
     # put dict of each domain to this list
     all_data = []
@@ -25,7 +40,8 @@ def save_json(start, end, path):
 
         # dict is used to save JSON of each domain
         data = dict()
-        data['start'] = start + '00'
+        data['start'] = start_date.strftime('%Y-%m-%d') + ' 00:00:00'
+        #data['start'] = start + '00'
         data['target'] = []
 
         while start_date <= end_date:
@@ -50,4 +66,4 @@ def save_json(start, end, path):
         outfile.write('\n'.join(json.dumps(i) for i in all_data) +'\n')
 
 
-save_json('20151001', '20151003', 'data.json')
+save_json('20150101', '20151003', 'data.json')
