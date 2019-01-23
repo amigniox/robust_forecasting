@@ -32,9 +32,11 @@ def save_json(start, end, path):
 
         while start_date <= end_date:
             if start_date + delta <= end_date:
-                final_url = base_url + start_date.strftime('%Y%m%d') + '00/' + (start_date + delta).strftime('%Y%m%d') + '23'
+                final_url = base_url + start_date.strftime('%Y%m%d') + '00/' \
+                            + (start_date + delta).strftime('%Y%m%d') + '23'
             else:
-                final_url = base_url + start_date.strftime('%Y%m%d') + '00/' + end + '23'
+                final_url = base_url + start_date.strftime('%Y%m%d') + '00/' \
+                            + end + '23'
             print (final_url)  # debug
             # make a API request here!!!
             response = requests.get(final_url)
