@@ -16,18 +16,23 @@ def save_json(start, end, out_path, input_path):
     if (end_date - start_date).days < 0:
         raise Exception('start date should NOT after end date')
 
+    expected_size = ((end_date - start_date).days + 1) * 24
+
     # provide wiki-project list here!
     with open(input_path) as f:
         projects = f.read().splitlines()
 
     for item in projects:
         data = get_single_views(item, start_date, end_date)
-        if len(data['target']) != 0:
+        if len(data['target']) == expected_size:
             all_data.append(data)
 
     # convert all items to JSON and write to a file
     print('saving data')
     print(project_list)
+    with open('project_list.txt', 'w') as f:
+        for item in project_list:
+            f.write("%s\n" % item)
     with open(out_path, 'w') as outfile:
         outfile.write('\n'.join(json.dumps(i) for i in all_data) + '\n')
 
@@ -56,12 +61,12 @@ def get_single_views(item, start_date, end_date):
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print("<-----Error---->: " + final_url)
+            print("<-----Error---->: " + final_url + str(e))
             break
         print('<-----OK----->' + final_url)  # debug
         output = response.json()
         print('processed data points: ' + str(len(output['items'])))  # debug
-        temp = start_date
+        temp = start_date - hour
         for i in output['items']:
             curr = datetime.datetime.strptime(i['timestamp'], '%Y%m%d%H')
             while curr - temp > hour:
@@ -70,7 +75,7 @@ def get_single_views(item, start_date, end_date):
             data['target'].append(i['views'])
             temp = curr
 
-        while (end_check - temp) >= zero:
+        while (end_check - temp) > zero:
             data['target'].append(0)
             temp += hour
 
@@ -79,4 +84,4 @@ def get_single_views(item, start_date, end_date):
     return data
 
 
-save_json('20150101', '20170101', 'train_full.json', 'wp_full.txt')
+save_json('20160101', '20180101', 'train_shorthead.json', 'wp_full.txt')

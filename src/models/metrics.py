@@ -41,10 +41,10 @@ def mae_log1p(true, predicted):
 
 def plot_smape(true_y, x_start, x_end):
     x = np.linspace(x_start,x_end, num=100)
-    plt.plot(x, differentiable_smape(true_y, x), label='differentiable')
-    plt.plot(x, rounded_smape(true_y, x), label='rounded')
-    plt.plot(x, mae(true_y, x), label='mae')
-    plt.plot(x, kaggle_smape(true_y, x), label='kaggle')
+    plt.plot(x, differentiable_smape(true_y, x), label='differentiable SMAPE')
+    plt.plot(x, rounded_smape(true_y, x), label='rounded SMAPE')
+    plt.plot(x, mae_log1p(true_y, x), label='mae')
+    plt.plot(x, smape(true_y, x), label='standard SMAPE')
     plt.xlabel('predicted value')
     plt.ylabel('Loss')
     plt.title('True value=' + str(true_y))
