@@ -26,6 +26,7 @@ def save_json(start, end, out_path, input_path):
         data = get_single_views(item, start_date, end_date)
         if len(data['target']) == expected_size:
             all_data.append(data)
+            project_list.append(item)
 
     # convert all items to JSON and write to a file
     print('saving data')
@@ -35,7 +36,8 @@ def save_json(start, end, out_path, input_path):
             f.write("%s\n" % item)
     with open(out_path, 'w') as outfile:
         outfile.write('\n'.join(json.dumps(i) for i in all_data) + '\n')
-
+    all_data.clear()
+    project_list.clear()
 
 def get_single_views(item, start_date, end_date):
     base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' \
@@ -84,4 +86,5 @@ def get_single_views(item, start_date, end_date):
     return data
 
 
-save_json('20160101', '20180101', 'train_shorthead.json', 'wp_full.txt')
+save_json('20160101', '20160101', 'train_wp-1d.json', 'wp.txt')
+save_json('20180101', '20180101', 'test_wp-1d.json', 'wp.txt')
