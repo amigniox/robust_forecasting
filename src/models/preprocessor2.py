@@ -39,6 +39,7 @@ def save_json(start, end, out_path, input_path):
     all_data.clear()
     project_list.clear()
 
+
 def get_single_views(item, start_date, end_date):
     base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' \
                + item \

@@ -27,7 +27,7 @@ def smape(true, predicted):
     true_o = true
     pred_o = predicted
     summ = np.abs(true_o) + np.abs(pred_o)
-    smape = np.where(summ==0, 0, np.abs(pred_o - true_o) / summ)
+    smape = np.where(summ == 0, 0, np.abs(pred_o - true_o) / summ)
     return smape
 
 
@@ -36,7 +36,7 @@ def mape(true, predicted):
     true_o = true
     pred_o = predicted
     denom = np.abs(true_o)
-    mape = np.where(denom==0, 0, np.abs(pred_o - true_o) / denom)
+    mape = np.where(denom == 0, 0, np.abs(pred_o - true_o) / denom)
     return mape
 
 
@@ -61,9 +61,9 @@ def plot_metrics(actual_series, pred_series):
     metric_smape_orig = smape(actual_series.values, pred_series.values)
     plt.figure(figsize=(12,6))
     plt.plot(pred_series.index, metric_smape_orig, label = 'smape standard = {}'.format(metric_smape_orig.mean()))
-    plt.plot(pred_series.index, metric_smape, label = 'smape differentialble = {}'.format(metric_smape.mean()))
+    plt.plot(pred_series.index, metric_smape, label = 'smape differentiable = {}'.format(metric_smape.mean()))
     plt.plot(pred_series.index, metric_mape, label = 'mape standard = {}'.format(metric_mape.mean()))
-    plt.plot(pred_series.index, metric_maelog1p, label = 'mape with log(1 + eplison +val) = {}'.format(metric_maelog1p.mean()))
+    plt.plot(pred_series.index, metric_maelog1p, label = 'mape with log(1 + epsilon +val) = {}'.format(metric_maelog1p.mean()))
     plt.xlabel('Time stamp of prediction')
     plt.ylabel('Prediction metric')
     plt.legend()

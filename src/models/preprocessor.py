@@ -11,7 +11,7 @@ def save_json(start, end, path):
     if (end_date - start_date).days < 0:
         raise Exception('start date should NOT after end date')
 
-    base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/perarticle/all-projects/all-access/white%20house/user/hourly/'
+    base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/commons.wikimedia.org/all-access/all-agents/hourly/'
     data = dict()
     data['start'] = start + '00'
     data['target'] = []
