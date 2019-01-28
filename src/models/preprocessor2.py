@@ -88,4 +88,4 @@ def get_single_views(item, start_date, end_date):
 
 
 # save_json('20160101', '20180101', 'train_2year.json', 'wp_full.txt')
-# save_json('20180101', '20190101', 'test_2year.json', 'wp_full.txt')
+save_json('20180101', '20190101', 'test_2year.json', 'wp_full.txt')
