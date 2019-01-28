@@ -81,6 +81,10 @@ target/
 *.txt
 *.dat
 
+# matlab
+*.m
+*.m~
+
 # Mac OS-specific storage files
 .DS_Store
 

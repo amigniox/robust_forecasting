@@ -31,7 +31,7 @@ def save_json(start, end, out_path, input_path):
     # convert all items to JSON and write to a file
     print('saving data')
     print(project_list)
-    with open('project_list.txt', 'w') as f:
+    with open(input_path[:-4] + '-' + str(start) + '-' + str(end) + '_get.txt', 'w') as f:
         for item in project_list:
             f.write("%s\n" % item)
     with open(out_path, 'w') as outfile:
@@ -87,5 +87,5 @@ def get_single_views(item, start_date, end_date):
     return data
 
 
-save_json('20160101', '20160101', 'train_wp-1d.json', 'wp.txt')
-save_json('20180101', '20180101', 'test_wp-1d.json', 'wp.txt')
+# save_json('20160101', '20180101', 'train_2year.json', 'wp_full.txt')
+save_json('20180101', '20190101', 'test_2year.json', 'wp_full.txt')
