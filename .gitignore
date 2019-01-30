@@ -80,6 +80,7 @@ target/
 *.json
 *.txt
 *.dat
+*.csv
 
 # matlab
 *.m
