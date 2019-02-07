@@ -12,3 +12,8 @@ about using it
 4. Provide a  path forward  for further improvements: 
 - Provide us with details on how to further improve including: What degree does
 aggregation and time scale matter for forecasting. How can we further improve, etc.
+
+
+## To use the code
+The pipeline is built on AWS sagemaker. Upload all the three module notebooks to sagemaker, start a notebook instance, and run the following code in order:
+`data_preprocessor.ipynb` 
