@@ -23,8 +23,9 @@ def save_json(start, end, out_path, input_path):
         projects = f.read().splitlines()
 
     for item in projects:
-        data = get_single_views(item, start_date, end_date)
-        if len(data['target']) == expected_size:
+        data, count_null = get_single_views(item, start_date, end_date)
+        # Filter out time series with too many missing values (> 20%).
+        if len(data['target']) == expected_size and count_null / len(data['target']) < 0.2:
             all_data.append(data)
             project_list.append(item)
 
@@ -43,11 +44,12 @@ def save_json(start, end, out_path, input_path):
 def get_single_views(item, start_date, end_date):
     base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' \
                + item \
-               + '/all-access/user/hourly/'
+               + '/mobile-web/spider/hourly/'
     # dict is used to save JSON of each domain
     data = {}
     data['start'] = start_date.strftime('%Y-%m-%d') + ' 00:00:00'
     data['target'] = []
+    count_null = 0
 
     while start_date <= end_date:
         if start_date + delta <= end_date:
@@ -73,19 +75,21 @@ def get_single_views(item, start_date, end_date):
         for i in output['items']:
             curr = datetime.datetime.strptime(i['timestamp'], '%Y%m%d%H')
             while curr - temp > hour:
-                data['target'].append(0)
+                data['target'].append(None)
+                count_null += 1
                 temp += hour
             data['target'].append(i['views'])
             temp = curr
 
         while (end_check - temp) > zero:
-            data['target'].append(0)
+            data['target'].append(None)
+            count_null += 1
             temp += hour
 
         start_date += datetime.timedelta(days=200)
 
-    return data
+    return data, count_null
 
 
 # save_json('20160101', '20171231', 'train_2year.json', 'wp_full.txt')
-save_json('20180101', '20190101', 'test_2year.json', 'wp_full.txt')
+save_json('20160101', '20171231', 'train_mobile_spider_filter20.json', 'wp_full.txt')
