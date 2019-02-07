@@ -1,6 +1,4 @@
 import datetime
-from typing import List
-
 import requests
 import json
 
@@ -12,7 +10,7 @@ def save_json(start, end, path):
         raise Exception('start date should NOT after end date')
 
     base_url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/commons.wikimedia.org/all-access/all-agents/hourly/'
-    data = dict()
+    data = {}
     data['start'] = start + '00'
     data['target'] = []
     delta = datetime.timedelta(days=199)
