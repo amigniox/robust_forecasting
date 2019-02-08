@@ -1,6 +1,30 @@
 """
 Pre-process json lines downloaded from Google BigQuery table.
 Output file as a different json lines format that DeepAR can consume.
+
+SQL example used to query the public table, just add them in the GoogleBigQuery editor, save to you table, and download json:
+
+#standardSQL
+SELECT
+  datehour, title, views
+FROM
+  `fh-bigquery.wikipedia_v3.pageviews_2017`
+WHERE
+  title IN (
+  SELECT
+    DISTINCT title
+  FROM
+    `fh-bigquery.wikipedia_v3.pageviews_2017`
+  WHERE
+    datehour BETWEEN TIMESTAMP('2017-01-01')
+    AND TIMESTAMP('2017-01-01')
+    AND wiki="en"
+  LIMIT 5000) AND
+  datehour BETWEEN TIMESTAMP('2017-01-01')
+    AND TIMESTAMP('2017-12-31') AND wiki="en"
+ORDER BY
+  title, datehour
+
 """
 import json
 import datetime
