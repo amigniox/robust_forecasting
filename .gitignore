@@ -96,6 +96,5 @@ target/
 # Mypy cache
 .mypy_cache/
 
-# AWS elastic beanstalk, ignore for now
-webapp/
+# AWS elastic beanstalk stuff
 *.zip
