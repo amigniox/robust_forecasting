@@ -5,51 +5,108 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    body {background-color: #1a1a1a; color: #b3b3b3;}
+    .form-control {background-color: #bfbfbf;}
+    .navbar-inverse {background-color: #404040;}
+  </style>
 </head>
 <body>
-<h1 align="center">Demo: Real time http requests forecasting</h1>
-<h2 align="center"> Xiaoming Zhang @ Insight </h2>
-<div class="container">
-  <h2>Input area</h2>
-  <form class="form-horizontal" action="" method="POST" enctype = "multipart/form-data">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="url">Wiki project API url:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="url" placeholder="wiki project" name="apiUrl">
-      </div>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Cloud Sage: robust application load forecasting</a>
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="start">Start time:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="start" placeholder="YYYYMMDDHH" name="start">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="https://github.com/amigniox/robust_forecasting"><i class="fab fa-github-alt fa-1x"></i>  Project repo</a></li>
+      <li><a href="https://www.linkedin.com/in/helloxiaoming/"><i class="fab fa-linkedin fa-1x"></i>  Xiaoming Zhang</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="padding-bottom: 10px; margin-top: -15px">
+  <div class="row" style="text-align: center;">
+    <h4>How to use this webapp</h4>
+    <h5>Provide a HTTP request url, its response is a time series and must be a list of JSON objects, each item has two keys (timestamp: "YYYYMMDDHH", views: int) </h5>
+    <h5>We will remove the last specific time range of input time series for prediction, context length for prediction is also fixed</h5>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom: 5px">
+  <form class="form-inline" action="" method="POST" enctype = "multipart/form-data">
+    <div class="row">
+      <div class="col-sm-2" style="margin-left: 60px">
+        <input type="text" class="form-control" id="url" placeholder="request url here" name="url">
       </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="end">End time:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="end" placeholder="YYYYMMDDHH" name="end">
+      <div class="col-sm-4" style="margin-right: -80px; margin-left: -10px">
+        <label for="wiki_project"> Or sample list: </label>
+        <select class="form-control" id="wiki_project" name="wiki_project">
+          <option>en.wikipedia.org</option>
+          <option>ca.wikipedia.org</option>
+		  <option>de.wikipedia.org</option>
+		  <option>ja.wikipedia.org</option>
+		  <option>zh.wikipedia.org</option>
+		  <option>ru.wikipedia.org</option>
+		  <option>commons.wikimedia.org</option>
+		  <option>species.wikimedia.org</option>
+		  <option>outreach.wikimedia.org</option>
+		  <option>en.wiktionary.org</option>
+		  <option>wikidata.org</option>
+		  <option>en.wikinews.org</option>
+		  <option>en.wikivoyage.org</option>
+		  <option>wikisource.org</option>
+		  <option>en.wikiversity.org</option>
+		  <option>en.wikibooks.org</option>
+		  <option>incubator.wikimedia.org</option>
+		  <option>wikimediafoundation.org</option>
+          <option>uk.wiktionary.org</option>
+          <option>ur.wikipedia.org</option>
+          <option>ve.wikipedia.org</option>
+          <option>ab.wikipedia.org</option>
+          <option>aa.wikipedia.org</option>
+          <option>ga.wikipedia.org</option>
+          <option>fa.wikipedia.org</option>
+          <option>en.wikinews.org</option>
+          <option>en.wikiquote.org</option>
+          <option>ab.wikipedia.org</option>
+        </select>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Submit</button>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="start" placeholder="start: YYYYMMDDHH" name="start">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="end" placeholder="end: YYYYMMDDHH" name="end">
+      </div>
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-success">Predict</button>
       </div>
     </div>
   </form>
 </div>
 
-<p>
-{% if result != None %}
-<div class="container">
-  <h2>Realtime prediction:</h2>
-  <img class="img-responsive" src="{{ result }}" width="800">
+<hr style="border-color:Maroon; width:80%;">
+
+{% if result == None %}
+<div class="container" style="text-align: center; padding-top: 20px">
+  <h3> Amazing stuff will show up here after you click predict button :-)</h3>
 </div>
 {% endif %}
 
-<br>
-<br>
-<br>
+{% if result != None %}
+<div class="container-fluid" style="margin-left: 100px; margin-top: -20px; padding-bottom: 20px">
+  <div class="row">
+    <div class="col-sm-6" style="margin-right: -80px;">
+      <img src="../{{ result[0] }}" class="img-responsive" alt="Responsive image">
+    </div>
+    <div class="col-sm-6">
+      <img src="../{{ result[1] }}" class="img-responsive" alt="Responsive image">
+    </div>
+  </div>
+</div>
+{% endif %}
+
 </body>
 </html>

@@ -1,5 +1,4 @@
 import json
-
 import matplotlib
 import matplotlib.pyplot as plt
 import boto3
@@ -8,12 +7,12 @@ import numpy as np
 import datetime
 import requests
 import csv
-
 from flask import Flask, render_template, request
 
 matplotlib.use('agg')
 
 application = Flask(__name__)
+application.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 with open('accessKeys.csv', 'r') as f:
     reader = csv.reader(f)
@@ -25,15 +24,25 @@ sagemaker = boto3.client('sagemaker-runtime', aws_access_key_id=id_key[1][0], aw
 @application.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        result = plot(request.form['apiUrl'], request.form['start'], request.form['end'])
+        if request.form['url'] == '':
+            start = request.form['start']
+            end = request.form['end']
+            wiki_project = request.form['wiki_project']
+            url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' + wiki_project + '/all-access/all-agents/hourly/' + start + '/' + end
+        else:
+            url = request.form['url']
+        try:
+            result = plot(url)
+        except:
+            return "Something bad happens, please check your url and make sure HTTP response has right format JSON"
     else:
         result = None
-
+    print(result)
     return render_template('index.html', result=result)
 
 
-def plot(url, start, end):
-    response = requests.get('https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' + url + '/all-access/all-agents/hourly/' + start + '/' + end)
+def plot(url):
+    response = requests.get(url)
     response.raise_for_status()
     output = response.json()
     start = output['items'][0]['timestamp'][:-2]
@@ -60,32 +69,43 @@ def plot(url, start, end):
     req = json.dumps(http_request_data).encode('utf-8')
 
     res = sagemaker.invoke_endpoint(
-        EndpointName='DEMO-deepar-2019-02-08-14-54-24-202',
+        EndpointName='DEMO-deepar-2019-02-11-17-18-26-808',
         Body=req,
         ContentType='application/json',
         Accept='Accept'
     )
 
     ans = decode_response(res, prediction_time, False)
+
+    images = []
+
     plt.figure()
-    actual_series[-72-48:].plot(label='target')
+    plt.style.use('dark_background')
+    actual_series.plot(title='Original time series')
+    ax1 = plt.gca()
+    ax1.get_yaxis().get_major_formatter().set_scientific(False)
+    ax1.set_facecolor('#1a1a1a')
+    plt.savefig('static/images/fig1.png', facecolor='#1a1a1a')
+    images.append('static/images/fig1.png')
+
+    plt.figure()
+    actual_series[-72-48:].plot(label='target', title='Comparision between target and prediction in the specific time range')
     p10 = ans['0.1']
     p90 = ans['0.9']
     plt.fill_between(p10.index, p10, p90, color='y', alpha=0.5, label='80% confidence interval')
     ans['0.5'].plot(label='prediction median')
-    plt.legend()
-    plt.savefig('static/images/fig.png')
-    return 'static/images/fig.png'
+    ax2 = plt.gca()
+    ax2.get_yaxis().get_major_formatter().set_scientific(False)
+    ax2.set_facecolor('#1a1a1a')
+    lg = plt.legend()
+    lg.get_frame().set_facecolor('#1a1a1a')
+    plt.savefig('static/images/fig2.png', facecolor='#1a1a1a')
+
+    images.append('static/images/fig2.png')
+    return images
 
 
 def series_to_dict(ts, cat=None, dynamic_feat=None):
-    """Given a pandas.Series object, returns a dictionary encoding the time series.
-
-    ts -- a Pandas.Series object with the target time series
-    cat -- an integer indicating the time series category
-
-    Return value: a dictionary
-    """
     obj = {"start": str(ts.index[0]), "target": encode_target(ts)}
     if cat is not None:
         obj["cat"] = cat
@@ -111,9 +131,20 @@ def decode_response(response, prediction_time, return_samples):
         dict_of_samples = {}
     return pd.DataFrame(data={**predictions['quantiles'], **dict_of_samples}, index=prediction_index)
 
+@application.after_request
+def add_header(response):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
+
 
 if __name__ == '__main__':
     application.debug = True
     application.run()
+
 
 
