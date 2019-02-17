@@ -21,8 +21,7 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 
 
 ## Project flowchart and reports
-![alt text][logo]
-[logo]: reports/figures/flow_chart.png "Project flow chart"
+![alt text](reports/figures/flow_chart.png "Project flow chart")
 
 1. Time series characterization and data segmentation method: [`characterize-and-segment-time-series.ipynb`](notebooks/visualization/characterize-and-segment-time-series.ipynb) demonstrates how to characterize different types of time series, then segment any given dataset and provide statistics.
 2. Full evaluation of model prediction errors and robustness across different types of workloads: [`XXXX.ipynb`](notebooks/test/full_evaluation.ipynb)
