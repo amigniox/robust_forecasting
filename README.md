@@ -1,4 +1,4 @@
-# Cloud Sage: Robust application load forecasting for predictive auto-scaling
+# Cloud Sage: Robust application load forecasting
 
 This is a consulting project with Valence research at Manifold.co
 
@@ -19,7 +19,7 @@ To achieve predictive auto-scaling, we need to forecast the web application load
 - **Pipeline** I built the entire pipeline on AWS:
 Data preprocessor --> training instance --> deploy trained model as Sagemaker endpoint --> Real-time query endpoint for inference
 
-
+---
 ## Project flowchart and reports
 ![alt text](reports/figures/flow_chart.png "Project flow chart")
 
@@ -33,30 +33,33 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 	- Steps taken to improve the model performance: hyperparameter tuning, feature extraction, increasing high quality training data.
 	- A path forward for further improvements of the forecaster.
 
+---
 ## Demo: inference from the deployed model endpoint
 Please visit [my web app](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to check prediction results of my deployed mode.
 
+---
 ## What's included in this repo:
 
-### Train and deploy the model yourself
-The pipeline is built on AWS sagemaker. Upload all the three module notebooks to sagemaker, start a notebook instance, and run the following code in order:
+- Train and deploy the model yourself
+	The pipeline is built on AWS sagemaker. Upload all the three module notebooks to sagemaker, start a notebook instance, and run the following code in order:
 
-`data_preprocessor.ipynb` This notebook will prepare the data channel in a S3 bucket to feed into the training instance. If you already have training/testing data, then skip this step and go head to train the model.
+	`data_preprocessor.ipynb` This notebook will prepare the data channel in a S3 bucket to feed into the training instance. If you already have training/testing data, then skip this step and go head to train the model.
 
-`trainer.ipynb` will train the model, deploy the model as a Sagemaker endpoint for inference. The hyperparameters are obtained from a hyperparameter tuning job with smallest RMSE. Remember to delete the endpoint if the model is no longer in use.
+	`trainer.ipynb` will train the model, deploy the model as a Sagemaker endpoint for inference. The hyperparameters are obtained from a hyperparameter tuning job with smallest RMSE. Remember to delete the endpoint if the model is no longer in use.
 
-`predictor.ipynb` will take the test data as input, send http request to the specified model endpoint and get inference. Then followed with amazing analysis and beautiful plots (add them by yourself).
+	`predictor.ipynb` will take the test data as input, send http request to the specified model endpoint and get inference. Then followed with amazing analysis and beautiful plots (add them by yourself).
 
-### `notebooks/` data analysis and model tests
-`notebooks/visualization` contains notebooks visualizing data exploratory analysis, time series characterization demostration, etc.
+- `notebooks/` data analysis and model tests
 
-`notebooks/test` contains intermediate training results with different training data and parameters.
+	`notebooks/visualization` contains notebooks visualizing data exploratory analysis, time series characterization demostration, etc.
 
-### `src/` 
-`src/scripts` includes Python code of data preprocessors, error metrics, time series characterization function.
+	`notebooks/test` contains intermediate training results with different training data and parameters.
+- `src/` 
 
-`src/webapp` contains Python code for my demo web app, it is based Flask, deployed on AWS Elastic Beanstalk.
+	`src/scripts` includes Python code of data preprocessors, error metrics, time series characterization function.
 
-### `reports/`
-Technical documents and figures.
+	`src/webapp` contains Python code for my demo web app, it is based Flask, deployed on AWS Elastic Beanstalk.
+- `reports/`
+
+	Technical documents and figures.
 
