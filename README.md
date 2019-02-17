@@ -1,23 +1,23 @@
 # Cloud Sage: Robust application load forecasting
 
-This is a consulting project with Valence research at Manifold.co
+This is a consulting project with [Valence](https://valence.net/) research at [Manifold.co](https://www.manifold.co/)
 
 ## Problem
 Nowadays cloud computing is on the rise. More and more businesses deploy their web apps on cloud platforms. When users access the web apps, this process generates web traffic. On the cloud platform, the orchestration system, for example, Kubernetes, will provision resources to handle different web traffic, this is done through auto-scaling. 
 
-However, currently the auto-scaling is usually done reactively, this causes two problems: when the traffic is increasing, the control system couldn’t provision enough resource, this causes performance degradation, and leads to bad user experience. When the traffic is becoming light, the over-provision will cause wasted cost.
+However, currently the auto-scaling is usually done reactively, this causes two problems: when the traffic is increasing, the control system couldn’t provision enough resource, which causes performance degradation, and leads to bad user experience. When the traffic is becoming light, the over-provision will lead to wasted cost.
 
 ## Solution
-To solve this problem, we need a better orchestration system with predictive auto-scaling. So we can predict the upcoming load, and adjust the provision beforehand-in this way, the performance is guaranteed, and cost is optimized.
+We need a better orchestration system with predictive auto-scaling: we can predict the upcoming load, and adjust the provision beforehand. The outcome: performance  guaranteed + cost optimized.
 
 To achieve predictive auto-scaling, we need to forecast the web application load traffic, which is essentially HTTP request time series. 
 
-- **Model** Recurrent neural network with long short term memory
+- **Model:** Recurrent neural network with long short term memory
 
-- **Data** Public available data, the wikipedia hourly pageview data on project level and per-article level.
+- **Data:** Public available data, the wikipedia hourly pageview data on project level and per-article level.
 
-- **Pipeline** I built the entire pipeline on AWS:
-Data preprocessor --> training instance --> deploy trained model as Sagemaker endpoint --> Real-time query endpoint for inference
+- **Pipeline:** I built the entire pipeline on AWS:
+Data preprocessor --> training instance --> deploy trained model as Sagemaker endpoint --> Real-time query endpoint for inference.
 
 ---
 ## Project flowchart and reports
@@ -35,7 +35,7 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 
 ---
 ## Demo: inference from the deployed model endpoint
-Please visit [my web app](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to check prediction results of my deployed mode.
+Please visit my web app [www.cloudsage.xyz](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to check how the forecasting works with the deployed model.
 
 ---
 ## What's included in this repo:
@@ -51,14 +51,14 @@ Please visit [my web app](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to chec
 
 - `notebooks/` data analysis and model tests
 
-	`notebooks/visualization` contains notebooks visualizing data exploratory analysis, time series characterization demostration, etc.
+	`notebooks/visualization` contains notebooks that visualize data exploratory analysis, time series characterization demostration, etc.
 
 	`notebooks/test` contains intermediate training results with different training data and parameters.
 - `src/` 
 
-	`src/scripts` includes Python code of data preprocessors, error metrics, time series characterization function.
+	`src/scripts` contains Python code of data preprocessors, error metrics, time series characterization function.
 
-	`src/webapp` contains Python code for my demo web app, it is based Flask, deployed on AWS Elastic Beanstalk.
+	`src/webapp` contains Python code for my demo web app. It's based on Flask, deployed on AWS Elastic Beanstalk.
 - `reports/`
 
 	Technical documents and figures.
