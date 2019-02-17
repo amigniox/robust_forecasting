@@ -69,7 +69,7 @@ def plot(url):
     req = json.dumps(http_request_data).encode('utf-8')
 
     res = sagemaker.invoke_endpoint(
-        EndpointName='DEMO-deepar-2019-02-11-17-18-26-808',
+        EndpointName='DEMO-deepar-2019-02-14-19-35-44-626',
         Body=req,
         ContentType='application/json',
         Accept='Accept'

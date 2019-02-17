@@ -31,7 +31,7 @@ def smape(true, predicted):
     return smape
 
 
-# MAE standard definition
+# MAPE standard definition
 def mape(true, predicted):
     true_o = true
     pred_o = predicted
