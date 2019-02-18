@@ -84,9 +84,8 @@ def plot(url):
 
     plt.figure()
     plt.style.use('dark_background')
-    #actual_series.plot(title='Original time series')
-    actual_series[:-context_length - prediction_length].plot(label = 'History')
-    actual_series[-context_length - prediction_length:-prediction_length].plot(label = 'Context')
+    actual_series[:-context_length - prediction_length].plot(label='History')
+    actual_series[-context_length - prediction_length:-prediction_length + 1].plot(label='Context')
     actual_series[- prediction_length:].plot(label='Target')
     plt.title('Input time series')
     ax1 = plt.gca()
