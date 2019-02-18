@@ -1,12 +1,12 @@
+import datetime
 import json
+
+import boto3
 import matplotlib
 import matplotlib.pyplot as plt
-import boto3
-import pandas as pd
 import numpy as np
-import datetime
+import pandas as pd
 import requests
-import csv
 from flask import Flask, render_template, request
 
 matplotlib.use('agg')
@@ -14,11 +14,12 @@ matplotlib.use('agg')
 application = Flask(__name__)
 application.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-with open('accessKeys.csv', 'r') as f:
-    reader = csv.reader(f)
-    id_key = list(reader)
+PAGEVIEW_ADDR = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate'
 
-sagemaker = boto3.client('sagemaker-runtime', aws_access_key_id=id_key[1][0], aws_secret_access_key=id_key[1][1], region_name='us-east-2')
+with open('accessKeys.json') as f:
+    id_key = json.load(f)
+
+sagemaker = boto3.client('sagemaker-runtime', aws_access_key_id=id_key['ID'], aws_secret_access_key=id_key['key'], region_name='us-east-2')
 
 
 @application.route('/', methods=['GET', 'POST'])
@@ -28,7 +29,7 @@ def index():
             start = request.form['start']
             end = request.form['end']
             wiki_project = request.form['wiki_project']
-            url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/' + wiki_project + '/all-access/all-agents/hourly/' + start + '/' + end
+            url = '{}/{}/{}/{}/{}'.format(PAGEVIEW_ADDR, wiki_project, 'all-access/all-agents/hourly', start, end)
         else:
             url = request.form['url']
         try:
@@ -69,7 +70,7 @@ def plot(url):
     req = json.dumps(http_request_data).encode('utf-8')
 
     res = sagemaker.invoke_endpoint(
-        EndpointName='DEMO-deepar-2019-02-14-19-35-44-626',
+        EndpointName='DEMO-deepar-2019-02-18-02-03-13-173',
         Body=req,
         ContentType='application/json',
         Accept='Accept'
@@ -78,28 +79,35 @@ def plot(url):
     ans = decode_response(res, prediction_time, False)
 
     images = []
+    context_length = 118
+    prediction_length = 48
 
     plt.figure()
     plt.style.use('dark_background')
-    actual_series.plot(title='Original time series')
+    #actual_series.plot(title='Original time series')
+    actual_series[:-context_length - prediction_length].plot(label = 'History')
+    actual_series[-context_length - prediction_length:-prediction_length].plot(label = 'Context')
+    actual_series[- prediction_length:].plot(label='Target')
+    plt.title('Input time series')
     ax1 = plt.gca()
     ax1.get_yaxis().get_major_formatter().set_scientific(False)
-    ax1.set_facecolor('#1a1a1a')
-    plt.savefig('static/images/fig1.png', facecolor='#1a1a1a')
+    ax1.set_facecolor('#2b2b2b')
+    plt.legend()
+    plt.savefig('static/images/fig1.png', facecolor='#2b2b2b')
     images.append('static/images/fig1.png')
 
     plt.figure()
-    actual_series[-72-48:].plot(label='target', title='Comparision between target and prediction in the specific time range')
+    actual_series[-context_length-prediction_length:].plot(label='target', title='Target vs prediction: zoom in view')
     p10 = ans['0.1']
     p90 = ans['0.9']
     plt.fill_between(p10.index, p10, p90, color='y', alpha=0.5, label='80% confidence interval')
     ans['0.5'].plot(label='prediction median')
-    ax2 = plt.gca()
-    ax2.get_yaxis().get_major_formatter().set_scientific(False)
-    ax2.set_facecolor('#1a1a1a')
+    ax = plt.gca()
+    ax.get_yaxis().get_major_formatter().set_scientific(False)
+    ax.set_facecolor('#2b2b2b')
     lg = plt.legend()
-    lg.get_frame().set_facecolor('#1a1a1a')
-    plt.savefig('static/images/fig2.png', facecolor='#1a1a1a')
+    lg.get_frame().set_facecolor('#2b2b2b')
+    plt.savefig('static/images/fig2.png', facecolor='#2b2b2b')
 
     images.append('static/images/fig2.png')
     return images

@@ -9,19 +9,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
-    body {background-color: #1a1a1a; color: #b3b3b3;}
+    body {background-color: #2b2b2b; color: #b3b3b3;}
     .form-control {background-color: #bfbfbf;}
-    .navbar-inverse {background-color: #404040;}
+    .navbar-inverse {background-color: #3c3f41;}
   </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Cloud Sage: robust application load forecasting</a>
+      <a class="navbar-brand" href="#">Cloud Sage: Robust application load forecasting</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="https://github.com/amigniox/robust_forecasting"><i class="fab fa-github-alt fa-1x"></i>  Project repo</a></li>
+      <li><a href="https://github.com/amigniox/robust_forecasting"><i class="fab fa-github-alt fa-1x"></i> Github repo </a></li>
       <li><a href="https://www.linkedin.com/in/helloxiaoming/"><i class="fab fa-linkedin fa-1x"></i>  Xiaoming Zhang</a></li>
     </ul>
   </div>
@@ -29,39 +29,25 @@
 
 <div class="container" style="padding-bottom: 10px; margin-top: -15px">
   <div class="row" style="text-align: center;">
-    <h4>How to use this webapp</h4>
+    <h4>How to use this web app</h4>
     <h5>Provide a HTTP request url, its response is a time series and must be a list of JSON objects, each item has two keys (timestamp: "YYYYMMDDHH", views: int) </h5>
-    <h5>We will remove the last specific time range of input time series for prediction, context length for prediction is also fixed</h5>
+    <h5>This app will remove the last 48 points of input time series for prediction, context length = 118</h5>
   </div>
 </div>
 
 <div class="container" style="padding-bottom: 5px">
   <form class="form-inline" action="" method="POST" enctype = "multipart/form-data">
     <div class="row">
-      <div class="col-sm-2" style="margin-left: 60px">
+      <div class="col-lg-2" style="margin-left: 60px">
         <input type="text" class="form-control" id="url" placeholder="request url here" name="url">
       </div>
-      <div class="col-sm-4" style="margin-right: -80px; margin-left: -10px">
-        <label for="wiki_project"> Or sample list: </label>
+      <div class="col-lg-4" style="margin-right: -50px; margin-left: -10px">
+        <label for="wiki_project">Or..choose our sample list: </label>
         <select class="form-control" id="wiki_project" name="wiki_project">
           <option>en.wikipedia.org</option>
           <option>ca.wikipedia.org</option>
-		  <option>de.wikipedia.org</option>
-		  <option>ja.wikipedia.org</option>
-		  <option>zh.wikipedia.org</option>
-		  <option>ru.wikipedia.org</option>
-		  <option>commons.wikimedia.org</option>
-		  <option>species.wikimedia.org</option>
-		  <option>outreach.wikimedia.org</option>
-		  <option>en.wiktionary.org</option>
-		  <option>wikidata.org</option>
-		  <option>en.wikinews.org</option>
-		  <option>en.wikivoyage.org</option>
-		  <option>wikisource.org</option>
-		  <option>en.wikiversity.org</option>
-		  <option>en.wikibooks.org</option>
-		  <option>incubator.wikimedia.org</option>
-		  <option>wikimediafoundation.org</option>
+          <option>zh.wikipedia.org</option>
+          <option>ja.wikipedia.org</option>
           <option>uk.wiktionary.org</option>
           <option>ur.wikipedia.org</option>
           <option>ve.wikipedia.org</option>
@@ -74,13 +60,13 @@
           <option>ab.wikipedia.org</option>
         </select>
       </div>
-      <div class="col-sm-2">
+      <div class="col-lg-2">
         <input type="text" class="form-control" id="start" placeholder="start: YYYYMMDDHH" name="start">
       </div>
-      <div class="col-sm-2">
+      <div class="col-lg-2">
         <input type="text" class="form-control" id="end" placeholder="end: YYYYMMDDHH" name="end">
       </div>
-      <div class="col-sm-2">
+      <div class="col-lg-2">
         <button type="submit" class="btn btn-success">Predict</button>
       </div>
     </div>
@@ -96,13 +82,13 @@
 {% endif %}
 
 {% if result != None %}
-<div class="container-fluid" style="margin-left: 100px; margin-top: -20px; padding-bottom: 20px">
+<div class="container-fluid" style="margin-top: -20px; margin-bottom: 20px">
   <div class="row">
-    <div class="col-sm-6" style="margin-right: -80px;">
-      <img src="../{{ result[0] }}" class="img-responsive" alt="Responsive image">
+    <div class="col-lg-6">
+      <img src="../{{ result[0] }}" class="center-block" width="100%">
     </div>
-    <div class="col-sm-6">
-      <img src="../{{ result[1] }}" class="img-responsive" alt="Responsive image">
+    <div class="col-lg-6">
+      <img src="../{{ result[1] }}" class="center-block" width="100%">
     </div>
   </div>
 </div>

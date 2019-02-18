@@ -24,8 +24,8 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 ![alt text](reports/figures/flow_chart.png "Project flow chart")
 
 1. Time series characterization and data segmentation method: [`characterize-and-segment-time-series.ipynb`](notebooks/visualization/characterize-and-segment-time-series.ipynb) demonstrates how to characterize different types of time series, then segment any given dataset and provide statistics.
-2. Full evaluation of model prediction errors and robustness across different types of workloads: [`XXXX.ipynb`](notebooks/test/full_evaluation.ipynb)
-3. Technical report states the following topics:
+2. Full evaluation of model prediction errors and robustness across different types of workloads: [`final-model-evaluation.ipynb`](notebooks/test/final-model-evaluation.ipynb)
+3. [Technical report](reports/tech_report.pdf "tech_report.pdf") states the following topics:
 	- Model basics. 
 	- Choice of error metric and interpretation 
 	- Detailed explanation of the time series characterization method.
@@ -65,4 +65,4 @@ Please visit my web app [www.cloudsage.xyz](http://www.cloudsage.xyz/ "www.cloud
 
 ---
 ## Acknowledgement
-
+@amigniox thanks [Dom](https://github.com/domenicrosati) for helps/suggestions and doing code reviews, @amigniox also thanks Insight directors and all fellow Fellows for constructive feedbacks.
