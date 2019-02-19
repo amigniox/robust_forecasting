@@ -70,7 +70,7 @@ def plot(url):
     req = json.dumps(http_request_data).encode('utf-8')
 
     res = sagemaker.invoke_endpoint(
-        EndpointName='DEMO-deepar-2019-02-18-02-03-13-173',
+        EndpointName='DEMO-deepar-2019-02-19-00-14-32-044',
         Body=req,
         ContentType='application/json',
         Accept='Accept'
@@ -91,7 +91,8 @@ def plot(url):
     ax1 = plt.gca()
     ax1.get_yaxis().get_major_formatter().set_scientific(False)
     ax1.set_facecolor('#2b2b2b')
-    plt.legend()
+    lg0 = plt.legend()
+    lg0.get_frame().set_facecolor('#2b2b2b')
     plt.savefig('static/images/fig1.png', facecolor='#2b2b2b')
     images.append('static/images/fig1.png')
 
