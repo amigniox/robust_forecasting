@@ -38,11 +38,12 @@
 <div class="container" style="padding-bottom: 5px">
   <form class="form-inline" action="" method="POST" enctype = "multipart/form-data">
     <div class="row">
-      <div class="col-lg-2" style="text-align: center;">
+      <div class="col-lg-4" style="text-align: center; margin-left: -10px">
+        <label for="url">Option1: custom url </label>
         <input type="text" class="form-control" id="url" placeholder="request url here" name="url">
       </div>
-      <div class="col-lg-4" style="text-align: center;">
-        <label for="wiki_project">Or..choose our sample list: </label>
+      <div class="col-lg-5" style="text-align: center; margin-left: -110px; margin-right: -80px">
+        <label for="wiki_project">Option2: wiki list </label>
         <select class="form-control" id="wiki_project" name="wiki_project">
           <option>en.wikipedia.org</option>
           <option>en.wikibooks.org</option>
@@ -78,7 +79,7 @@
       <div class="col-lg-2" style="text-align: center;">
         <input type="text" class="form-control" id="end" placeholder="end: YYYYMMDDHH" name="end">
       </div>
-      <div class="col-lg-2" style="text-align: center;">
+      <div class="col-lg-1" style="text-align: center;">
         <button type="submit" class="btn btn-success">Predict</button>
       </div>
     </div>
