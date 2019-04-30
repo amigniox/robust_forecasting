@@ -40,6 +40,7 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 Notes added on 2019-0429: the demo period was ended. Please refer to the following screenshots and [`src/webapp`](src/webapp) for details.
 ![alt text](reports/figures/screenshot_left.png)
 ![alt text](reports/figures/screenshot_right.png)
+
 ---
 ## What's included in this repo:
 
