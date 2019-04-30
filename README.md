@@ -35,8 +35,10 @@ Data preprocessor --> training instance --> deploy trained model as Sagemaker en
 
 ---
 ## Demo: inference from the deployed model endpoint
-Please visit my web app [www.cloudsage.xyz](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to check how the forecasting works with the deployed model.
-
+~~Please visit my web app [www.cloudsage.xyz](http://www.cloudsage.xyz/ "www.cloudsage.xyz") to check how the forecasting works with the deployed model.~~
+Notes added on 2019-0429: the demo period was ended. Please refer to the following screenshots and [`src/webapp`](src/webapp) for details.
+![alt text](reports/figures/screenshot_left.png =200px)
+![alt text](reports/figures/screenshot_right.png =200px)
 ---
 ## What's included in this repo:
 
